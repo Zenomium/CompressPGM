@@ -1,0 +1,22 @@
+CC := gcc
+CFLAGS := -std=c17 -fPIC
+BIN := ./bin
+SRC := ./src
+INC := ./include
+SHARE := -fPIC -shared
+LIB := libqtc.so
+LIBS := ./lib
+IPATH := -I$(INC)
+
+OBJS := $(BIN)/image_read.o $(BIN)/pixmap.o $(BIN)/heap.o $(BIN)/compress.o  $(BIN)/qtcmanip.o $(BIN)/variance.o
+
+all: $(LIBS)/$(LIB)
+
+$(LIBS)/$(LIB): $(OBJS)
+	$(CC) $(CFLAGS) $(IPATH) $(SHARE) -o $(LIBS)/$(LIB) $(OBJS) -lm
+
+$(BIN)/%.o: $(SRC)/%.c
+	$(CC) -c $(CFLAGS) $(IPATH) $< -o $@
+
+clean:
+	rm -f $(BIN)/*.o $(LIBS)/$(LIB)
